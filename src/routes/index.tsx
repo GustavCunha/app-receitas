@@ -6,6 +6,7 @@ import { Favorites } from '../screens/Favorites';
 import {Ionicons} from '@expo/vector-icons';
 
 import { THEME } from '../styles/theme';
+import { StackRoutes } from './stack.routes';
 
 const {Navigator, Screen} = createBottomTabNavigator();
 
@@ -25,8 +26,8 @@ export function Routes() {
             }}
         >
             <Screen 
-                name='Home' 
-                component={Home} 
+                name='HomeTab' 
+                component={StackRoutes} 
                 options={{
                     tabBarIcon: ({ color, size, focused}) => {
                         if(focused) {
