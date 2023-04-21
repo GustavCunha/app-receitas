@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import {Ionicons} from '@expo/vector-icons';
+import { Text as MotiText } from 'moti';
 
-import { Logo } from '../../components/Logo'
 import { Card, CardProps } from '../../components/Card';
+import { Logo } from '../../components/Logo'
+import { Loading } from '../../components/Loading';
 
 import { API } from '../../services/api';
 import { THEME } from '../../styles/theme';
 import { s } from './styles'
-import { Loading } from '../../components/Loading';
 
 export function Home() {
     const [searchValue, setSearchValue] = useState('');
@@ -16,13 +17,15 @@ export function Home() {
     const [loading, setLoading] = useState(true);
 
     function handleSearch() {
+        if(!searchValue) return;
 
+        fetchApi();
     }
 
     async function fetchApi() {
         try {
             setLoading(true);
-            const {data} = await API.get('/foods');
+            const {data} = await API.get(`/foods?name_like=${searchValue}`);
             setFoods(data);
         } catch (error) {
             console.log(error);
@@ -40,9 +43,14 @@ export function Home() {
         <SafeAreaView style={s.container}>
             <Logo />
 
-            <Text style={s.title}>
+            <MotiText 
+                style={s.title}
+                from={{opacity: 0, translateY: 15}}
+                animate={{opacity: 1, translateY: 0}}
+                transition={{delay: 100, type: 'timing', duration: 650}}
+            >
                 Encontre a receita {'\n'}que combina com você
-            </Text>
+            </MotiText>
 
             <View style={s.form}>
                 <TextInput
@@ -66,7 +74,7 @@ export function Home() {
                     renderItem={({item}) => <Card data={item} />}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{paddingBottom: 50}}
-                    // ListEmptyComponent={() => <Text>Não foi possível carregar informações</Text>}
+                    ListEmptyComponent={() => <Text style={{fontSize: 16}}>Que pena! Não encontramos sua receita...</Text>}
                 />
             }
 

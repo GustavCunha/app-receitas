@@ -1,8 +1,12 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
-import { s } from './styles';
 import { useNavigation } from '@react-navigation/native';
+
+import { IngredientCardProps } from '../IngrendientCard';
+import { InstructionProps } from '../Instruction';
+
+import { s } from './styles';
 
 interface Props {
     data: CardProps
@@ -11,23 +15,12 @@ interface Props {
 export interface CardProps {
     id: string;
     name: string;
-    total_ingredients: string;
+    total_ingredients: number;
     time: number;
     cover: string;
     video: string;
-    ingredients: IngredientsProps[],
-    instructions: InstructionsProps[]
-}
-
-interface IngredientsProps {
-    id: string;
-    name: string;
-    amount: string;
-}
-
-interface InstructionsProps {
-    id: string;
-    text: string;
+    ingredients: IngredientCardProps[],
+    instructions: InstructionProps[]
 }
 
 export function Card({data}: Props) {
